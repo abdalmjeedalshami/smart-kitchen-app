@@ -1,44 +1,108 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <base href="/">
+  <base href="$FLUTTER_BASE_HREF">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="description" content="Meal App Planner - تطبيق إدارة الوجبات">
 
   <!-- iOS meta tags & icons -->
-  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="meal_app_planner">
+  <meta name="apple-mobile-web-app-title" content="Meal App Planner">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>meal_app_planner</title>
+  <title>Meal App Planner</title>
   <link rel="manifest" href="manifest.json">
 
-  <!-- Firebase App (core SDK) -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-
   <script>
-    // إعداد Firebase
-    const firebaseConfig = {
-      apiKey: "AIzaSyDO2PlGl76317-v6jOzZX83yKZZQ1qDs9I",
-      authDomain: "mealplannerapp-84fbc.firebaseapp.com",
-      projectId: "mealplannerapp-84fbc",
-      storageBucket: "mealplannerapp-84fbc.appspot.com",
-      messagingSenderId: "103103221209",
-      appId: "1:103103221209:web:XXXXXXXXXXXXXXX"
-    };
-
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
+    const serviceWorkerVersion = null;
   </script>
+  <script src="flutter.js" defer></script>
+  
+  <!-- Preload fonts to avoid loading issues -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="fonts.css">
+  
+  <style>
+    /* Loading indicator */
+    .loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      font-family: 'Roboto', sans-serif;
+    }
+    
+    .loading-content {
+      text-align: center;
+    }
+    
+    .spinner {
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top: 4px solid white;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* Hide loading when Flutter is ready */
+    .loading.hidden {
+      display: none;
+    }
+  </style>
 </head>
 <body>
-  <script src="flutter_bootstrap.js" async></script>
+  <!-- Loading indicator -->
+  <div id="loading" class="loading">
+    <div class="loading-content">
+      <div class="spinner"></div>
+      <h2>Meal App Planner</h2>
+      <p>جاري تحميل التطبيق...</p>
+    </div>
+  </div>
+
+  <script>
+    window.addEventListener('load', function(ev) {
+      // Download main.dart.js
+      _flutter.loader.loadEntrypoint({
+        serviceWorker: {
+          serviceWorkerVersion: serviceWorkerVersion,
+        },
+        onEntrypointLoaded: function(engineInitializer) {
+          engineInitializer.initializeEngine().then(function(appRunner) {
+            appRunner.runApp();
+          });
+        }
+      });
+    });
+    
+    // Hide loading when Flutter is ready
+    window.addEventListener('flutter-first-frame', function() {
+      document.getElementById('loading').classList.add('hidden');
+    });
+    
+    // Handle font loading errors gracefully
+    window.addEventListener('error', function(e) {
+      if (e.target && e.target.tagName === 'LINK' && e.target.href.includes('fonts.googleapis.com')) {
+        console.warn('Failed to load Google Fonts, using fallback fonts');
+      }
+    });
+  </script>
 </body>
 </html>

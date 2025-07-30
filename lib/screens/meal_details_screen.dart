@@ -17,7 +17,7 @@ class MealDetailsScreen extends StatelessWidget {
     Navigator.popUntil(
       context,
       (route) => route.isFirst,
-    ); // العودة إلى الصفحة الرئيسية
+    ); 
   }
 
   @override

@@ -1,11 +1,11 @@
 {
-    "name": "meal_app_planner",
-    "short_name": "meal_app_planner",
+    "name": "Meal App Planner",
+    "short_name": "Meal Planner",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#ffffff",
+    "theme_color": "#ff9800",
+    "description": "تطبيق إدارة الوجبات والتخطيط الغذائي",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

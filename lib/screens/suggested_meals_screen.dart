@@ -35,11 +35,11 @@ class SuggestedMealsScreen extends StatelessWidget {
       body: ListView.separated(
         padding: const EdgeInsets.symmetric(
           vertical: 24,
-        ), // ✅ مسافة في البداية والنهاية
+        ), 
         itemCount: meals.length,
         separatorBuilder:
             (context, index) =>
-                const SizedBox(height: 24), // ✅ مسافة بين العناصر
+                const SizedBox(height: 24), 
         itemBuilder: (context, index) {
           final meal = meals[index];
           return Card(
@@ -69,7 +69,7 @@ class SuggestedMealsScreen extends StatelessWidget {
                     builder:
                         (context) => MealDetailsScreen(
                           mealName: meal['name'],
-                          imageUrl: '', // لم نعد نستخدم صور
+                          imageUrl: '',
                         ),
                   ),
                 );

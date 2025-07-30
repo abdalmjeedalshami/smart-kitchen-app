@@ -22,12 +22,13 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.meal_app_planner"
+        applicationId ="com.example.meal_app_planner"
         minSdk = 23
         targetSdk= 34
         versionCode =flutter.versionCode
         versionName= flutter.versionName
     }
+
 
     buildTypes {
         release {

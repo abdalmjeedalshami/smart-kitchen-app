@@ -1,8 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:meal_app_planner/service/api_service.dart';
-
-import 'SignupScreen.dart';
+import '../services/api_service.dart';
+import 'signup_screen.dart';
 import 'home_page.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -16,25 +15,6 @@ class LoginScreen extends StatelessWidget {
     return null;
   }
 
-  Future<void> _submitForm(BuildContext context) async {
-    if (_formKey.currentState!.validate()) {
-      final email = _emailController.text;
-      final password = _passwordController.text;
-
-      final result = await ApiService.loginUser(email, password);
-
-      if (result['success']) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const HomePage()),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(result['message'] ?? 'Login failed')),
-        );
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +72,11 @@ class LoginScreen extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.orange,
                         ),
-                        onPressed: () => _submitForm(context),
+                        // onPressed: () => _submitForm(context),
+                        onPressed: (){Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomePage()),
+                        );},
                         child: Text(
                           "Log In",
                           style: TextStyle(
@@ -136,6 +120,60 @@ class LoginScreen extends StatelessWidget {
                             ),
                           ],
                         ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: () async {
+                          final emailController = TextEditingController();
+                          await showDialog(
+                            context: context,
+                            builder:
+                                (context) => AlertDialog(
+                                  title: const Text('استعادة كلمة المرور'),
+                                  content: TextField(
+                                    controller: emailController,
+                                    decoration: const InputDecoration(
+                                      labelText: 'البريد الإلكتروني',
+                                    ),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text('إلغاء'),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () async {
+                                        final email =
+                                            emailController.text.trim();
+                                        if (email.isEmpty) return;
+                                        final result =
+                                            await ApiService.forgotPassword(
+                                              email,
+                                            );
+                                        Navigator.pop(context);
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              result['success']
+                                                  ? 'تم إرسال رابط استعادة كلمة المرور إلى بريدك الإلكتروني'
+                                                  : (result['message'] ??
+                                                      'فشل في إرسال البريد'),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: const Text('إرسال'),
+                                    ),
+                                  ],
+                                ),
+                          );
+                        },
+                        child: const Text('نسيت كلمة المرور؟'),
                       ),
                     ),
                   ],

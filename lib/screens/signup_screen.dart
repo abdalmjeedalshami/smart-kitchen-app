@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:meal_app_planner/service/api_service.dart';
-
+import 'package:meal_app_planner/services/api_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'home_page.dart';
 import 'login_screen.dart';
 
@@ -43,23 +43,39 @@ class _SignupScreenState extends State<SignupScreen> {
 
   Future<void> _submitForm() async {
     if (_formKey.currentState!.validate()) {
+      if (_passwordController.text != _confirmPasswordController.text) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('كلمة المرور وتأكيدها غير متطابقتين')),
+        );
+        return;
+      }
       final Map<String, String> formData = {
         "first_name": _usernameController.text,
-        "last_name": "test",
+        "last_name": "test", // أو من حقل آخر
         "email": _emailController.text,
-        "phone": "000000000",
-        "gender": "ma",
-        "birth_date": "2000-01-01",
+        "phone": "000000000", // أو من حقل آخر
+        "gender": "ma", // أو من حقل آخر
+        "birth_date": "2000-01-01", // أو من حقل آخر
         "password": _passwordController.text,
+        "password_confirmation": _confirmPasswordController.text,
       };
-
       final result = await ApiService.registerUser(formData);
-
+      print('REGISTER RESULT:');
+      print(result);
       if (result['success']) {
+        final prefs = await SharedPreferences.getInstance();
+        final token =
+            result['data']['Token'] ??
+            result['data']['Token:'] ??
+            result['data']['token'];
+        print('TOKEN (SignupScreen): ' + (token ?? 'NULL'));
+        await prefs.setString('token', token);
+        if (!mounted) return;
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => const HomePage()),
         );
       } else {
+        if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(result['message'] ?? 'Registration failed')),
         );
