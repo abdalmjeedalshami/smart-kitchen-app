@@ -7,7 +7,6 @@ import '../providers/home/home_cubit.dart';
 import '../providers/main/main_cubit.dart';
 import '../providers/main/main_state.dart';
 import '../providers/meals/meal_provider.dart';
-import '../services/database_helper.dart';
 import '../utils/responsive_util.dart';
 
 AppBar appBar(context) => AppBar(

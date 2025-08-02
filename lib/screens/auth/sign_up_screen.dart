@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:meal_app_planner/providers/home/home_cubit.dart';
 import 'package:meal_app_planner/screens/layout/home_layout.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers/auth/auth_cubit.dart';
@@ -53,6 +54,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
           /// Todo: fix this
           // NavigationUtil.navigateTo(context,
           //     screen: OtpPage(email: emailController.text));
+          context.read<HomeCubit>().currentIndex = 0;
+          NavigationUtil.navigateTo(context, screen: HomeLayout());
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.message)),
           );

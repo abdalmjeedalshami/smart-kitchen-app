@@ -7,7 +7,6 @@ import '../../../utils/colors.dart';
 import '../../../utils/images.dart';
 import '../../../utils/responsive_util.dart';
 import '../../../widgets/app_bar.dart';
-import '../../../widgets/mealcard.dart';
 import '../../../widgets/meals_slider.dart';
 import '../../../widgets/poppins_text.dart';
 import '../../../widgets/search_field.dart';

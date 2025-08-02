@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive/hive.dart';
 import 'package:meal_app_planner/screens/home_page.dart';
-import 'package:meal_app_planner/screens/layout/home/home_screen.dart';
-import 'package:meal_app_planner/screens/layout/home_layout.dart';
 import '../providers/auth/auth_cubit.dart';
 import '../utils/colors.dart';
 import '../utils/icons.dart';

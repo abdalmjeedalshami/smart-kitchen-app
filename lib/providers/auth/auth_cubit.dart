@@ -17,10 +17,15 @@ class AuthCubit extends Cubit<AuthState> {
 
   AuthCubit(this.authService) : super(AuthInitial());
 
+  String? token;
+  Map<String, dynamic>? user;
+
   Future<void> register(Map<String, String> data) async {
     try {
       emit(AuthLoading());
       final response = await authService.register(data);
+      user = response['user'];
+      token = response['token'];
       emit(AuthSuccess('${response['message']}'));
     } catch (e) {
       emit(AuthFailure(e.toString()));
@@ -37,7 +42,6 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  String? token;
   String? imageUrl;
 
   Future<void> login(String email, String password) async {
@@ -47,18 +51,17 @@ class AuthCubit extends Cubit<AuthState> {
 
       // Extract relevant fields from the response
       final message = response['message'];
-      final data = response['data'];
+      final user = response['user'];
 
       token = response['token'];
-      final user = response['data']['user'];
       imageUrl = user['image_url'];
 
       box.put('isLoggedIn', true);
       box.put('userEmail', email);
       box.put('userToken', token);
-      box.put('userImage', imageUrl);
+      // box.put('userImage', imageUrl);
 
-      emit(AuthSuccess(message, data));
+      emit(AuthSuccess(message, user));
     } catch (e) {
       emit(AuthFailure(e.toString()));
     }
@@ -71,6 +74,8 @@ class AuthCubit extends Cubit<AuthState> {
       String? token = box.get('userToken');
 
       if (token == null) throw Exception('Token not found');
+
+      final response = authService.logout(token);
 
       box.clear();
 
@@ -149,8 +154,6 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthFailure(e.toString()));
     }
   }
-
-  Map<String, dynamic>? user;
 
   Future<void> getProfile() async {
     try {

@@ -17,7 +17,7 @@ import '../../auth/delete_account_screen.dart';
 import '../../auth/login_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({super.key});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -32,9 +32,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void _editEmail() {}
 
   void _editPhone() {}
-
-  void _logout() {
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -157,13 +154,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 // Logout button
                 GestureDetector(
                   onTap: () {
-                    _logout();
                     showLogoutDialog(context, onLogoutPressed: () {
                       /// ToDo: Delete this line
                       NavigationUtil.navigateTo(context, screen: LoginScreen());
 
                       /// ToDo: We need this
-                      // authCubit.logout();
+                      authCubit.logout();
                     });
                   },
                   child: RalewayText.bold(

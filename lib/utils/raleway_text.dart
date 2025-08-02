@@ -8,11 +8,11 @@ class RalewayText extends StatelessWidget {
   final TextAlign textAlign;
 
   const RalewayText({
-    Key? key,
+    super.key,
     required this.text,
     required this.style,
     this.textAlign = TextAlign.start,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
